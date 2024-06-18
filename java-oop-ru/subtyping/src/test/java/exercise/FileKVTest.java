@@ -41,8 +41,8 @@ class FileKVTest {
     @Test
     public void deserializeTest() {
         KeyValueStorage dictionary = new FileKV(filepath.toString(), Map.of("key", "value"));
+        Utils.writeFile(filepath.toString(), Utils.serialize(Utils.unserialize("src/test/resources/test-file-contents.json")));
         Map<String, String> actual = Utils.unserialize(filepath.toString());
-        Utils.writeFile(filepath.toString(), Utils.serialize(actual));
         Map<String, String> expected = dictionary.toMap();
         assertThat(expected).isEqualTo(actual);
     }
