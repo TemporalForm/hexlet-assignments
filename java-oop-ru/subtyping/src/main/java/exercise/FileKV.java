@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 // BEGIN
-public class FileKV implements KeyValueStorage{
+public class FileKV implements KeyValueStorage {
     private Map<String, String> dictionary;
 
     private String path;
