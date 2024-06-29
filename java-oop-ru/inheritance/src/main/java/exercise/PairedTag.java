@@ -5,37 +5,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 // BEGIN
-public class PairedTag extends Tag {
-    private String tagBody;
-    private List<Tag> singleTags;
+class PairedTag extends Tag {
 
-    public PairedTag(String tag,
-                     Map<String, String> attributes,
-                     String tagBody,
-                     List<Tag> singleTags) {
-        super(tag, attributes);
-        this.tagBody = tagBody;
-        this.singleTags = singleTags;
+    private String body;
+    private List<Tag> children;
+
+    PairedTag(String name, Map<String, String> attributes, String body, List<Tag> children) {
+        super(name, attributes);
+        this.body = body;
+        this.children = children;
     }
 
-    @Override
     public String toString() {
-        String openingTag = String.format("<%s", super.getTag());
-        String attributes = super.getAttributes()
-                .entrySet()
-                .stream()
-                .map(entry -> entry.getKey() + String.format("=\"%s\"", entry.getValue()))
-                .collect(Collectors.joining(" "));
-        String closingTag = String.format("</%s>", super.getTag());
-        String pairedTagBody = openingTag
-                + (attributes.isEmpty() ? "" : " " + attributes)
-                + ">";
-        String resultTag = singleTags.stream()
-                .map(Tag::toString)
-                .collect(Collectors.joining(""))
-                + tagBody
-                + closingTag;
-        return pairedTagBody + resultTag;
+        String attributes = stringifyAttributes();
+        String name = getName();
+        String value = children.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(""));
+
+        return String.format("<%s%s>%s%s</%s>", name, attributes, body, value, name);
     }
 }
 // END
