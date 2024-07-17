@@ -8,25 +8,16 @@ import java.util.List;
 
 // BEGIN
 public class App {
-    public static void save(Path path, Car car) {
-        try {
-            Files.write(path,
-                    car.serialize().getBytes(),
-                    StandardOpenOption.CREATE,
-                    StandardOpenOption.TRUNCATE_EXISTING);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+    public static void save(Path filePath, Car instance) throws Exception {
+        String jsonRepresentation = instance.serialize();
+        Files.writeString(filePath, jsonRepresentation, StandardOpenOption.WRITE);
     }
 
-    public static Car extract(Path path) {
-        try {
-            List<String> lines = Files.readAllLines(path);
-            String carJson = String.join("", lines);
-            return Car.unserialize(carJson);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public static Car extract(Path filePath) throws Exception {
+        String jsonRepresentation = Files.readString(filePath);
+        Car instance = Car.unserialize(jsonRepresentation);
+        return instance;
     }
 }
 // END

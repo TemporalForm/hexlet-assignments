@@ -17,22 +17,15 @@ class Car {
     User owner;
 
     // BEGIN
-    public String serialize() {
+    public String serialize() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        String jsonRepresentation = objectMapper.writeValueAsString(this);
+        return jsonRepresentation;
     }
 
-    public static Car unserialize(String carJsonRepresentation) {
+    public static Car unserialize(String jsonRepresentation) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.readValue(carJsonRepresentation, Car.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return objectMapper.readValue(jsonRepresentation, Car.class);
     }
     // END
 }
